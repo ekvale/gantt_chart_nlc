@@ -86,6 +86,9 @@ events_df = pd.DataFrame(events_data)
 # However, since your snippet does not show such calculations, ensure your datetime objects are in the correct format:
 events_df['Start'] = pd.to_datetime(events_df['Start'])
 events_df['Finish'] = pd.to_datetime(events_df['Finish'])
+
+if 'Duration' in events_df.columns:  # Check if 'Duration' column exists
+    events_df['Duration'] = events_df['Duration'].apply(lambda x: x.total_seconds())
 fig = px.timeline(
     events_df,
     x_start="Start",
