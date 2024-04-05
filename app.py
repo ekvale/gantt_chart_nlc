@@ -40,12 +40,9 @@ if 'task_dates' not in st.session_state:
 def add_or_update_task(task_name, start_date, end_date, category, notes, users, old_task_name=None):
     if old_task_name and old_task_name in st.session_state['task_dates'] and old_task_name != task_name:
         del st.session_state['task_dates'][old_task_name]
-
-    # Convert user input string to list of users
     users_list = [user.strip() for user in users.split(',')] if users else []
-
     st.session_state['task_dates'][task_name] = (start_date, end_date, category, notes, users_list)
-
+    save_tasks(st.session_state['task_dates'])
 
 st.title("Project Management")
 
@@ -75,27 +72,18 @@ with st.expander("Add or Edit Task"):
                            old_task_name=task_to_edit if task_to_edit else None)
         st.success(f"Task '{task_name}' saved successfully!")
 
-# Generate and display the updated Gantt chart with notes and users in the tooltip
-events_data = [
-    {
-        "Task": task,
-        "Start": start,
-        "Finish": end,
-        "Resource": category,
-        "Notes": notes,
-        "Users": ', '.join(users)  # Convert the list of users to a string for display
-    }
-    for task, (start, end, category, notes, users) in st.session_state['task_dates'].items()
-]
+# Generate and display the updated Gantt chart
+events_data = [{
+    "Task": task,
+    "Start": start,
+    "Finish": end,
+    "Resource": category,
+    "Notes": notes,
+    "Users": ', '.join(users)
+} for task, (start, end, category, notes, users) in st.session_state['task_dates'].items()]
 
 events_df = pd.DataFrame(events_data)
-# Example conversion of a timedelta column 'Duration' to a total number of seconds
-events_df['Duration'] = events_df['Duration'].apply(lambda x: x.total_seconds())
 
-# Or convert to a string representation
-events_df['Duration'] = events_df['Duration'].apply(str)
-
-# Using Plotly Express to generate the Gantt chart, specifying hover data to include notes and users
 fig = px.timeline(
     events_df,
     x_start="Start",
@@ -103,22 +91,7 @@ fig = px.timeline(
     y="Task",
     color="Resource",
     title="Project Timeline",
-    hover_data=["Notes", "Users"]  # Adding notes and users to the hover data
+    hover_data={"Resource": False, "Notes": True, "Users": True}
 )
 
-events_df = pd.DataFrame(events_data)
-# Correctly setting up hover_data to include Notes and Users in the tooltip
-fig = px.timeline(
-    events_df,
-    x_start="Start",
-    x_end="Finish",
-    y="Task",
-    color="Resource",
-    title="Project Timeline",
-    hover_data={
-        "Resource": False,  # Disables the default display of the Resource column in the tooltip
-        "Notes": True,  # Enables the display of Notes in the tooltip
-        "Users": True,  # Enables the display of Users in the tooltip
-    }
-)
 st.plotly_chart(fig)
