@@ -116,11 +116,13 @@ pathspec==0.11.1
 pickleshare==0.7.5
 Pillow==9.5.0
 platformdirs==3.5.0
+plotly==5.3.1
 pluggy==1.0.0
 pre-commit==3.3.1
 prometheus-client==0.16.0
 prompt-toolkit==3.0.38
 protobuf==4.25.3
+psycopg2==2.9.6
 psycopg2-binary==2.9.6
 pure-eval==0.2.2
 pyarrow==15.0.0
