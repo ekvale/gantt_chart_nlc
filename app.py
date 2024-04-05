@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import json
 
+#st.set_page_config(layout="wide")
 # Function to load tasks from a JSON file
 def load_tasks():
     try:
@@ -44,7 +45,7 @@ def add_or_update_task(task_name, start_date, end_date, category, notes, users, 
     st.session_state['task_dates'][task_name] = (start_date, end_date, category, notes, users_list)
     save_tasks(st.session_state['task_dates'])
 
-st.title("Project Management")
+st.title("Northern Lights Collective Project Timelines")
 
 with st.expander("Add or Edit Task"):
     task_to_edit = st.selectbox("Select a task to edit or add a new task:",
