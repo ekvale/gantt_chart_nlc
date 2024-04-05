@@ -1,6 +1,21 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import json
+
+# Function to load tasks from a JSON file
+def load_tasks():
+    try:
+        with open('tasks.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}  # Return an empty dictionary if the file doesn't exist
+
+# Function to save tasks to a JSON file
+def save_tasks(tasks):
+    with open('tasks.json', 'w') as f:
+        json.dump(tasks, f)
+
 
 # Initialize the session state to store task dates and categories if not already done
 # Update the session state initialization to include placeholders for notes and users
