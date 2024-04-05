@@ -122,7 +122,6 @@ pre-commit==3.3.1
 prometheus-client==0.16.0
 prompt-toolkit==3.0.38
 protobuf==4.25.3
-psycopg2==2.9.6
 psycopg2-binary==2.9.6
 pure-eval==0.2.2
 pyarrow==15.0.0
