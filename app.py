@@ -89,6 +89,11 @@ events_data = [
 ]
 
 events_df = pd.DataFrame(events_data)
+# Example conversion of a timedelta column 'Duration' to a total number of seconds
+events_df['Duration'] = events_df['Duration'].apply(lambda x: x.total_seconds())
+
+# Or convert to a string representation
+events_df['Duration'] = events_df['Duration'].apply(str)
 
 # Using Plotly Express to generate the Gantt chart, specifying hover data to include notes and users
 fig = px.timeline(
