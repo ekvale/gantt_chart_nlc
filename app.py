@@ -83,7 +83,9 @@ events_data = [{
 } for task, (start, end, category, notes, users) in st.session_state['task_dates'].items()]
 
 events_df = pd.DataFrame(events_data)
-
+# However, since your snippet does not show such calculations, ensure your datetime objects are in the correct format:
+events_df['Start'] = pd.to_datetime(events_df['Start'])
+events_df['Finish'] = pd.to_datetime(events_df['Finish'])
 fig = px.timeline(
     events_df,
     x_start="Start",
